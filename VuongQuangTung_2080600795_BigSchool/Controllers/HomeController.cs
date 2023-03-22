@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using VuongQuangTung_2080600795_BigSchool.Models;
 using System.Data.Entity;
+using VuongQuangTung_2080600795_BigSchool.ViewModels;
+
 
 namespace VuongQuangTung_2080600795_BigSchool.Controllers
 {
@@ -22,9 +24,17 @@ namespace VuongQuangTung_2080600795_BigSchool.Controllers
                 .Include(c => c.Lecturer)
                 .Include(c => c.Category)
                 .Where(c => c.DateTime > DateTime.Now);
-            return View(upcommingCourses);
+            
+            var viewModel = new CoursesViewModel
+            {
+                UpcommingCourses = upcommingCourses,
+                ShowAction = User.Identity.IsAuthenticated
+            };
+            
+            return View(viewModel);
+            
         }
-
+         
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
